@@ -1,55 +1,36 @@
-(function() {
-    console.log("Виджет загружен!");
+define(['jquery'], function ($) {
+    return {
+        init: function () {
+            console.log('AmoCRM Widget Initialized');
 
-    // Функция рендеринга интерфейса
-    function renderWidget() {
-        let widgetContainer = document.createElement('div');
-        widgetContainer.style.padding = "10px";
-        widgetContainer.style.border = "1px solid #ccc";
-        widgetContainer.style.width = "100%";
+            let self = this;
 
-        let heading = document.createElement('h2');
-        heading.innerText = 'Заметки';
-        widgetContainer.appendChild(heading);
+            // Создаем контейнер виджета
+            let widgetContainer = `
+                <div class="widget-container" style="padding: 10px;">
+                    <h3 style="margin-bottom: 5px;">Заметки</h3>
+                    <textarea id="note-text" rows="5" style="width: 100%; border: 1px solid #ccc;"></textarea>
+                    <button id="save-note" style="margin-top: 10px;">Сохранить</button>
+                </div>
+            `;
 
-        let textarea = document.createElement('textarea');
-        textarea.id = 'user-input';
-        textarea.rows = 5;
-        textarea.style.width = "100%";
-        widgetContainer.appendChild(textarea);
+            // Добавляем контейнер в AmoCRM
+            self.$wrapper.html(widgetContainer);
 
-        let saveButton = document.createElement('button');
-        saveButton.innerText = 'Сохранить';
-        saveButton.style.marginTop = "10px";
-        saveButton.onclick = saveText;
-        widgetContainer.appendChild(saveButton);
+            // Загружаем сохраненный текст
+            let savedNote = localStorage.getItem('amocrm_widget_note');
+            if (savedNote) {
+                $('#note-text').val(savedNote);
+            }
 
-        // Добавляем в блок AmoCRM
-        let widgetBlock = document.querySelector('.cell-wrapper');
-        if (widgetBlock) {
-            widgetBlock.innerHTML = ''; // Очищаем перед добавлением
-            widgetBlock.appendChild(widgetContainer);
-        }
+            // Обработчик кнопки "Сохранить"
+            $('#save-note').on('click', function () {
+                let noteText = $('#note-text').val();
+                localStorage.setItem('amocrm_widget_note', noteText);
+                alert('Заметка сохранена!');
+            });
 
-        // Загружаем сохраненный текст
-        loadText();
-    }
-
-    // Функция сохранения текста
-    function saveText() {
-        let userInput = document.getElementById('user-input').value;
-        localStorage.setItem('widgetText', userInput); // Храним в localStorage
-        alert('Текст сохранен!');
-    }
-
-    // Функция загрузки сохраненного текста
-    function loadText() {
-        let savedText = localStorage.getItem('widgetText');
-        if (savedText) {
-            document.getElementById('user-input').value = savedText;
-        }
-    }
-
-    // Ждем загрузку AmoCRM и рендерим виджет
-    setTimeout(renderWidget, 1000);
-})();
+            return true;
+        },
+    };
+});
