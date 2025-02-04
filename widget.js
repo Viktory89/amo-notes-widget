@@ -1,20 +1,3 @@
-{
-  "widgets": [
-    {
-      "id": "notes_widget",
-      "version": "1.0.0",
-      "author": "Твое имя",
-      "name": "Заметки",
-      "description": "Простой виджет для заметок в AmoCRM",
-      "base_url": "https://amo-notes-widget.onrender.com/", 
-      "locations": {
-        "dashboard": {
-          "url": "widget.js"
-        }
-      }
-    }
-  ]
-}
 window.onload = function() {
     // Создаем элементы для виджета
     const widgetContainer = document.createElement('div');
