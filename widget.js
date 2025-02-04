@@ -15,7 +15,6 @@
     }
   ]
 }
-// widget.js
 window.onload = function() {
     // Создаем элементы для виджета
     const widgetContainer = document.createElement('div');
@@ -38,7 +37,10 @@ window.onload = function() {
 
     const saveButton = document.createElement('button');
     saveButton.innerText = 'Сохранить';
-    saveButton.onclick = saveText;
+    saveButton.onclick = function() {
+        console.log('Кнопка нажата');
+        saveText();
+    };
     widgetContainer.appendChild(saveButton);
 
     // Добавим контейнер на страницу
@@ -46,12 +48,32 @@ window.onload = function() {
 
     // Загружаем текст при загрузке
     loadText();
+
+    // Добавим стили для виджета
+    const style = document.createElement('style');
+    style.innerHTML = `
+      #widget-container {
+        padding: 10px;
+        border: 1px solid #ccc;
+        width: 300px;
+      }
+      textarea {
+        width: 100%;
+        height: 100px;
+        padding: 10px;
+      }
+      button {
+        margin-top: 10px;
+      }
+    `;
+    document.head.appendChild(style);
 };
 
 // Функция для сохранения текста в localStorage
 function saveText() {
     const userInput = document.getElementById('user-input').value;
     localStorage.setItem('widgetText', userInput); // Сохраняем в localStorage
+    console.log('Сохранено в localStorage:', userInput); // Логирование
     alert('Текст сохранен!');
 }
 
@@ -60,5 +82,7 @@ function loadText() {
     const savedText = localStorage.getItem('widgetText');
     if (savedText) {
         document.getElementById('user-input').value = savedText; // Восстанавливаем сохраненный текст
+        console.log('Загружен текст из localStorage:', savedText); // Логирование
     }
 }
+
