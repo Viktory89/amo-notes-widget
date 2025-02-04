@@ -1,70 +1,55 @@
-window.onload = function() {
-    // Создаем элементы для виджета
-    const widgetContainer = document.createElement('div');
-    widgetContainer.id = 'widget-container';
-    
-    const heading = document.createElement('h2');
-    heading.innerText = 'Заметки';
-    widgetContainer.appendChild(heading);
+(function() {
+    console.log("Виджет загружен!");
 
-    const label = document.createElement('label');
-    label.setAttribute('for', 'user-input');
-    label.innerText = 'Введите заметку:';
-    widgetContainer.appendChild(label);
+    // Функция рендеринга интерфейса
+    function renderWidget() {
+        let widgetContainer = document.createElement('div');
+        widgetContainer.style.padding = "10px";
+        widgetContainer.style.border = "1px solid #ccc";
+        widgetContainer.style.width = "100%";
 
-    const textarea = document.createElement('textarea');
-    textarea.id = 'user-input';
-    textarea.rows = 5;
-    textarea.cols = 40;
-    widgetContainer.appendChild(textarea);
+        let heading = document.createElement('h2');
+        heading.innerText = 'Заметки';
+        widgetContainer.appendChild(heading);
 
-    const saveButton = document.createElement('button');
-    saveButton.innerText = 'Сохранить';
-    saveButton.onclick = function() {
-        console.log('Кнопка нажата');
-        saveText();
-    };
-    widgetContainer.appendChild(saveButton);
+        let textarea = document.createElement('textarea');
+        textarea.id = 'user-input';
+        textarea.rows = 5;
+        textarea.style.width = "100%";
+        widgetContainer.appendChild(textarea);
 
-    // Добавим контейнер на страницу
-    document.body.appendChild(widgetContainer);
+        let saveButton = document.createElement('button');
+        saveButton.innerText = 'Сохранить';
+        saveButton.style.marginTop = "10px";
+        saveButton.onclick = saveText;
+        widgetContainer.appendChild(saveButton);
 
-    // Загружаем текст при загрузке
-    loadText();
+        // Добавляем в блок AmoCRM
+        let widgetBlock = document.querySelector('.cell-wrapper');
+        if (widgetBlock) {
+            widgetBlock.innerHTML = ''; // Очищаем перед добавлением
+            widgetBlock.appendChild(widgetContainer);
+        }
 
-    // Добавим стили для виджета
-    const style = document.createElement('style');
-    style.innerHTML = `
-      #widget-container {
-        padding: 10px;
-        border: 1px solid #ccc;
-        width: 300px;
-      }
-      textarea {
-        width: 100%;
-        height: 100px;
-        padding: 10px;
-      }
-      button {
-        margin-top: 10px;
-      }
-    `;
-    document.head.appendChild(style);
-};
-
-// Функция для сохранения текста в localStorage
-function saveText() {
-    const userInput = document.getElementById('user-input').value;
-    localStorage.setItem('widgetText', userInput); // Сохраняем в localStorage
-    console.log('Сохранено в localStorage:', userInput); // Логирование
-    alert('Текст сохранен!');
-}
-
-// Функция для загрузки текста из localStorage
-function loadText() {
-    const savedText = localStorage.getItem('widgetText');
-    if (savedText) {
-        document.getElementById('user-input').value = savedText; // Восстанавливаем сохраненный текст
-        console.log('Загружен текст из localStorage:', savedText); // Логирование
+        // Загружаем сохраненный текст
+        loadText();
     }
-}
+
+    // Функция сохранения текста
+    function saveText() {
+        let userInput = document.getElementById('user-input').value;
+        localStorage.setItem('widgetText', userInput); // Храним в localStorage
+        alert('Текст сохранен!');
+    }
+
+    // Функция загрузки сохраненного текста
+    function loadText() {
+        let savedText = localStorage.getItem('widgetText');
+        if (savedText) {
+            document.getElementById('user-input').value = savedText;
+        }
+    }
+
+    // Ждем загрузку AmoCRM и рендерим виджет
+    setTimeout(renderWidget, 1000);
+})();
