@@ -8,7 +8,7 @@
       "description": "Простой виджет для заметок в AmoCRM",
       "base_url": "https://amo-notes-widget.onrender.com/", 
       "locations": {
-        "lcard": {
+        "dashboard": {
           "url": "widget.js"
         }
       }
