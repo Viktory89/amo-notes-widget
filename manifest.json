@@ -9,7 +9,7 @@
       "base_url": "https://amo-notes-widget.onrender.com/",
       "locations": {
         "dashboard": {
-          "url": "widget.js"
+          "url": "content.js"
         }
       }
     }
